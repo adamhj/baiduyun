@@ -50,48 +50,6 @@
     'unselected': '获取选中文件失败，请F5刷新重试！',
     'morethan2': '该方法不支持多文件下载！'
   };
-    
-  $.fn.dialogDrag = function () {
-    var mouseInitX, mouseInitY, dialogInitX, dialogInitY;
-    var screenWidth = document.body.clientWidth;
-    var $parent = this;
-    $('div.dialog-header', this).mousedown(function (event) {
-      mouseInitX = parseInt(event.pageX);
-      mouseInitY = parseInt(event.pageY);
-      dialogInitX = parseInt($parent.css('left').replace('px', ''));
-      dialogInitY = parseInt($parent.css('top').replace('px', ''));
-      $(this).mousemove(function (event) {
-        var tempX = dialogInitX + parseInt(event.pageX) - mouseInitX;
-        var tempY = dialogInitY + parseInt(event.pageY) - mouseInitY;
-        var width = parseInt($parent.css('width').replace('px', ''));
-        tempX = tempX < 0 ? 0 : tempX > screenWidth - width ? screenWidth - width : tempX;
-        tempY = tempY < 0 ? 0 : tempY;
-        $parent.css('left', tempX + 'px').css('top', tempY + 'px');
-      });
-    });
-    $('div.dialog-header', this).mouseup(function (event) {
-      $(this).unbind('mousemove');
-    });
-  };
-    
-  $(function () {
-    classMap['default-dom'] = ($('.icon-upload').parent().parent().parent().parent().parent().attr('class'));
-    classMap['bar'] = ($('.icon-upload').parent().parent().parent().parent().attr('class'));
-
-    switch (detectPage()) {
-      case 'disk':
-        var panHelper = new PanHelper();
-        panHelper.init();
-        return;
-      case 'share':
-      case 's':
-        var panShareHelper = new PanShareHelper();
-        panShareHelper.init();
-        return;
-      default:
-        return;
-    }
-  });
 
   function slog(c1, c2, c3) {
     c1 = c1 ? c1 : '';
@@ -2056,6 +2014,48 @@
       shadow.hide();
     }
   }
+
+  $.fn.dialogDrag = function () {
+    var mouseInitX, mouseInitY, dialogInitX, dialogInitY;
+    var screenWidth = document.body.clientWidth;
+    var $parent = this;
+    $('div.dialog-header', this).mousedown(function (event) {
+      mouseInitX = parseInt(event.pageX);
+      mouseInitY = parseInt(event.pageY);
+      dialogInitX = parseInt($parent.css('left').replace('px', ''));
+      dialogInitY = parseInt($parent.css('top').replace('px', ''));
+      $(this).mousemove(function (event) {
+        var tempX = dialogInitX + parseInt(event.pageX) - mouseInitX;
+        var tempY = dialogInitY + parseInt(event.pageY) - mouseInitY;
+        var width = parseInt($parent.css('width').replace('px', ''));
+        tempX = tempX < 0 ? 0 : tempX > screenWidth - width ? screenWidth - width : tempX;
+        tempY = tempY < 0 ? 0 : tempY;
+        $parent.css('left', tempX + 'px').css('top', tempY + 'px');
+      });
+    });
+    $('div.dialog-header', this).mouseup(function (event) {
+      $(this).unbind('mousemove');
+    });
+  };
+
+  $(function () {
+    classMap['default-dom'] = ($('.icon-upload').parent().parent().parent().parent().parent().attr('class'));
+    classMap['bar'] = ($('.icon-upload').parent().parent().parent().parent().attr('class'));
+
+    switch (detectPage()) {
+      case 'disk':
+        var panHelper = new PanHelper();
+        panHelper.init();
+        return;
+      case 'share':
+      case 's':
+        var panShareHelper = new PanShareHelper();
+        panShareHelper.init();
+        return;
+      default:
+        return;
+    }
+  });
 
   (function() {
     var script = document.createElement("script");
